@@ -22,7 +22,6 @@ class Category(MPTTModel):
         return f'{self.name}'
 
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)
@@ -45,13 +44,15 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, related_name='post')
     create_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.title}'
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
     serves = models.CharField(max_length=50)
     prep_time = models.PositiveIntegerField(default=1)
     cook_time = models.PositiveIntegerField(default=1)
-    ingredients = models.TextField()
+    ingredients = models.TextField(verbose_name='Ингридиенты')
     directions = models.TextField()
     post = models.ForeignKey(
         Post,
@@ -60,10 +61,13 @@ class Recipe(models.Model):
         null=True,
         blank=True)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Comment(models.Model):
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=100)
     website = models.CharField(max_length=100)
     message = models.TextField(max_length=500)
-    post = models.ForeignKey(Post, related_name='comment', on_delete=models.CASCADE,)
+    post = models.ForeignKey(Post, related_name='comment', on_delete=models.CASCADE, )
