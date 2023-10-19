@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-
+from django.urls import reverse
 
 class Category(MPTTModel):
     name = models.CharField(max_length=100)
@@ -33,6 +33,7 @@ class Tag(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(User, related_name='posts', on_delete=models.CASCADE)
     title = models.CharField(max_length=220)
+    slug = models.SlugField(max_length=220, unique=True, default='')
     image = models.ImageField(upload_to='articles/')
     text = models.TextField()
     category = models.ForeignKey(
@@ -46,6 +47,16 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
+    def get_absolute_url(self):
+        return reverse('post_single', kwargs={"slug": self.category.slug, "post_slug": self.slug})#передается 2 слага для
+    #урлов <slug:slug>/<slug:post_slug>
+
+    def get_recipes(self):
+        return self.recipe.all() #подтягиваю все рецепты к посту в шаблонах
+
+    def get_tags(self):
+        return self.tags.all()
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
