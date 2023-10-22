@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 from django.urls import reverse
+from ckeditor.fields import RichTextField
 
 class Category(MPTTModel):
     name = models.CharField(max_length=100)
@@ -49,22 +50,25 @@ class Post(models.Model):
         return f'{self.title}'
 
     def get_absolute_url(self):
-        return reverse('post_single', kwargs={"slug": self.category.slug, "post_slug": self.slug})#передается 2 слага для
-    #урлов <slug:slug>/<slug:post_slug>
+        return reverse('post_single',
+                       kwargs={"slug": self.category.slug, "post_slug": self.slug})  # передается 2 слага для
+
+    # урлов <slug:slug>/<slug:post_slug>
 
     def get_recipes(self):
-        return self.recipe.all() #подтягиваю все рецепты к посту в шаблонах
+        return self.recipe.all()  # подтягиваю все рецепты к посту в шаблонах
 
     def get_tags(self):
         return self.tags.all()
+
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
     serves = models.CharField(max_length=50)
     prep_time = models.PositiveIntegerField(default=1)
     cook_time = models.PositiveIntegerField(default=1)
-    ingredients = models.TextField(verbose_name='Ингридиенты')
-    directions = models.TextField()
+    ingredients = RichTextField()
+    directions = RichTextField()
     post = models.ForeignKey(
         Post,
         related_name='recipe',
