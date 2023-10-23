@@ -13,7 +13,8 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'category', 'create_at', 'id']
     prepopulated_fields = {"slug": ("title",)}
     inlines = [RecipeInline] #присоединием к админке возможность в добавлении постаа выбор рецепта
-
+    save_as = True
+    save_on_top = True
 @admin.register(models.Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ['name', 'prep_time', 'cook_time', 'post']
