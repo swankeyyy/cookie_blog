@@ -1,0 +1,16 @@
+{% load menu_tags %}
+
+<nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="/">Home</a></li>
+                            <li><a href="#">Recipes</a>
+                                <div class="header__megamenu__wrapper">
+                                    {% get_last_posts %}
+                                </div>
+                            </li>
+                            
+                            {% get_categories %}
+                            <li><a href="#">About</a></li>
+                            <li><a href="{% url 'contacts' %}">Contact</a></li>
+                        </ul>
+                    </nav>

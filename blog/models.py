@@ -4,6 +4,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 
+
 class Category(MPTTModel):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100)

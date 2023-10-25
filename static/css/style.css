@@ -407,6 +407,18 @@ ol {
 	padding: 10px 0;
 }
 
+.children {
+	left: 100px;
+}
+
+.children ul li:hover .children {
+	opacity: 1;
+	visibility: visible;
+	top: 41px;
+}
+
+
+
 .header__menu ul li .dropdown__menu li {
 	display: block;
 	margin-right: 0;
